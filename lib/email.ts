@@ -1,4 +1,6 @@
 import { Resend } from "resend";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import type { LeadScore } from "@prisma/client";
 import { brand } from "./brand";
 
@@ -18,13 +20,22 @@ export async function enviarGuiaPorEmail(params: {
   }
 
   const guiaUrl = `${siteUrl}/guia`;
-  const downloadUrl = `${siteUrl}/api/guia/pdf`;
+  const downloadUrl = `${siteUrl}/guia-preco-de-custo-r21.pdf`;
+
+  let attachments: { filename: string; content: string }[] | undefined;
+  try {
+    const pdf = await readFile(path.join(process.cwd(), "public", "guia-preco-de-custo-r21.pdf"));
+    attachments = [{ filename: "guia-preco-de-custo-r21.pdf", content: pdf.toString("base64") }];
+  } catch (e) {
+    console.warn("[email] PDF não encontrado para anexar:", e instanceof Error ? e.message : e);
+  }
 
   return resend.emails.send({
     from,
     to: params.email,
     subject: "Seu Guia da Construção a Preço de Custo — R21",
     html: emailGuiaHtml({ nome: params.nome, guiaUrl, downloadUrl }),
+    attachments,
   });
 }
 

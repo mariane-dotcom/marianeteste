@@ -1,4 +1,5 @@
 import { empreendimentos, totais } from "@/lib/portfolio";
+import { CardEmpreendimento } from "./CardEmpreendimento";
 
 const categoriaLabel: Record<string, string> = {
   administracao: "Administração e Construção",
@@ -34,18 +35,7 @@ export function Portfolio() {
             </div>
             <ul className="mt-6 grid gap-px bg-r21-fog md:grid-cols-3">
               {lista.map((e) => (
-                <li key={e.nome} className="bg-r21-white p-6">
-                  <div className="aspect-[4/3] bg-r21-paper mb-4 flex items-center justify-center text-r21-stone text-xs">
-                    {/* TODO: trocar por foto real do empreendimento */}
-                    foto · {e.nome}
-                  </div>
-                  <h4 className="font-semibold text-r21-black">{e.nome}</h4>
-                  <p className="text-sm text-r21-graphite mt-1">{e.endereco}</p>
-                  <p className="text-xs text-r21-stone mt-1">
-                    {e.cidade}
-                    {e.ano ? ` · Entrega ${e.ano}` : ""}
-                  </p>
-                </li>
+                <CardEmpreendimento key={e.nome} e={e} />
               ))}
             </ul>
           </div>
