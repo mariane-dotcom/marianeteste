@@ -10,4 +10,4 @@ dist/
 .DS_Store
 .vercel
 next-env.d.ts
-/prisma/dev.db*
+tsconfig.tsbuildinfo

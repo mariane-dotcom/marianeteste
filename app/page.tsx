@@ -1,25 +1,18 @@
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Diferenciais } from "@/components/Diferenciais";
-import { ComoFunciona } from "@/components/ComoFunciona";
-import { Portfolio } from "@/components/Portfolio";
-import { OfertaGuia } from "@/components/OfertaGuia";
-import { SecaoCaptura } from "@/components/SecaoCaptura";
-import { Footer } from "@/components/Footer";
-
 export default function Home() {
   return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <Diferenciais />
-        <ComoFunciona />
-        <Portfolio />
-        <OfertaGuia />
-        <SecaoCaptura />
-      </main>
-      <Footer />
-    </>
+    <section className="mx-auto max-w-6xl px-6 py-20">
+      <p className="text-sm uppercase tracking-widest text-r21-red font-medium">
+        Fase 0 — Fundação
+      </p>
+      <h1 className="mt-3 text-4xl md:text-5xl font-medium text-r21-black">
+        R21 — Sistema de Captação de Investidores
+      </h1>
+      <p className="mt-5 max-w-2xl text-r21-gray-600 leading-relaxed">
+        Projeto inicializado com identidade visual da R21, tokens de cor,
+        tipografia Ubuntu e layout base. As próximas fases (landing,
+        formulário qualificador, calculadora, CRM e dashboard) serão
+        construídas sobre esta fundação.
+      </p>
+    </section>
   );
 }

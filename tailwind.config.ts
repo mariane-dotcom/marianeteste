@@ -1,32 +1,38 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
         r21: {
-          red: "#E30613",
-          "red-dark": "#B30410",
-          "red-soft": "#FCE8EA",
-          black: "#0A0A0A",
-          ink: "#1A1A1A",
-          graphite: "#3D3D3D",
-          stone: "#6B6B6B",
-          fog: "#D9D9D9",
-          paper: "#F5F5F5",
-          white: "#FFFFFF",
+          red: "#CC1316",
+          "red-dark": "#A50413",
+          "red-darker": "#80030F",
+          "red-deep": "#61020B",
+          "red-bright": "#E8051B",
+          "red-300": "#ED3749",
+          "red-200": "#F05866",
+          "red-100": "#F48C96",
+          "red-50": "#F8B2B8",
+          black: "#222222",
+          "gray-900": "#2F2F2F",
+          "gray-800": "#3B3B3B",
+          "gray-600": "#555555",
+          "gray-500": "#6A6A6A",
+          "gray-400": "#8C8C8C",
+          "gray-300": "#A2A2A2",
+          "gray-200": "#BFBFBF",
+          "gray-100": "#D9D9D9",
+          "off-white": "#F0F0F0",
+          white: "#F4F5F7",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-inter)", "system-ui", "sans-serif"],
-      },
-      maxWidth: {
-        container: "1200px",
-      },
-      letterSpacing: {
-        tightest: "-0.04em",
+        sans: ["var(--font-ubuntu)", "system-ui", "sans-serif"],
       },
     },
   },
