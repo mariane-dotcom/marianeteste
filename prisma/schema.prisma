@@ -33,24 +33,38 @@ enum Horizonte {
 }
 
 model Lead {
-  id            String        @id @default(cuid())
-  nome          String
-  email         String
-  telefone      String
-  objetivo      Objetivo
-  faixaCapital  FaixaCapital
-  horizonte     Horizonte
-  score         Int
-  classificacao Classificacao
-  origem        String?
-  utmSource     String?
-  utmMedium     String?
-  utmCampaign   String?
-  utmTerm       String?
-  utmContent    String?
-  userAgent     String?
-  createdAt     DateTime      @default(now())
+  id             String              @id @default(cuid())
+  nome           String
+  email          String
+  telefone       String
+  objetivo       Objetivo
+  faixaCapital   FaixaCapital
+  horizonte      Horizonte
+  score          Int
+  classificacao  Classificacao
+  origem         String?
+  utmSource      String?
+  utmMedium      String?
+  utmCampaign    String?
+  utmTerm        String?
+  utmContent     String?
+  userAgent      String?
+  crmProvider    String?
+  crmContactId   String?
+  createdAt      DateTime            @default(now())
+  nurturingSteps NurturingDispatch[]
 
   @@index([email])
   @@index([classificacao, createdAt])
+}
+
+model NurturingDispatch {
+  id     String   @id @default(cuid())
+  leadId String
+  step   Int
+  sentAt DateTime @default(now())
+  lead   Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@unique([leadId, step])
+  @@index([sentAt])
 }

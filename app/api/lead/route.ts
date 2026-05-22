@@ -4,6 +4,7 @@ import { LeadSchema } from "@/lib/lead-schema";
 import { calcularScore, classificar } from "@/lib/scoring";
 import { signLeadToken } from "@/lib/lead-token";
 import { enviarGuiaParaLead, notificarLeadQuente } from "@/lib/email";
+import { rotearParaCrm } from "@/lib/crm";
 
 export const runtime = "nodejs";
 
@@ -83,6 +84,13 @@ export async function POST(req: NextRequest) {
       classificacao,
     }).catch((err) => console.error("notificação A falhou", err));
   }
+
+  void rotearParaCrm({
+    leadId: lead.id,
+    lead: input,
+    score,
+    classificacao,
+  }).catch((err) => console.error("roteamento CRM falhou", err));
 
   return NextResponse.json(
     {
