@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { calcularScore, faixasCapitalLabel, horizonteLabel, objetivoLabel } from "@/lib/scoring";
 import { enviarGuiaPorEmail, notificarLeadAlta } from "@/lib/email";
+import { syncLeadParaCRM } from "@/lib/crm";
 
 const schema = z.object({
   nome: z.string().min(2).max(120),
@@ -53,8 +54,11 @@ export async function POST(req: Request) {
           telefone: data.telefone,
           score,
           resumo,
+          observacao: lead.observacao,
+          origem: lead.origem,
         })
       : Promise.resolve(),
+    syncLeadParaCRM(lead),
   ]);
 
   return NextResponse.json({ ok: true, id: lead.id, score });

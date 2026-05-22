@@ -34,7 +34,7 @@ enum Horizonte {
 }
 
 model Lead {
-  id          String       @id @default(cuid())
+  id          String          @id @default(cuid())
   nome        String
   email       String
   telefone    String
@@ -47,9 +47,21 @@ model Lead {
   utmMedium   String?
   utmCampaign String?
   observacao  String?
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime        @default(now())
+  emails      EmailEnviado[]
 
   @@index([score])
   @@index([createdAt])
   @@index([email])
+}
+
+model EmailEnviado {
+  id         String   @id @default(cuid())
+  leadId     String
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  templateId String
+  enviadoEm  DateTime @default(now())
+
+  @@unique([leadId, templateId])
+  @@index([templateId])
 }

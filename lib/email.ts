@@ -34,6 +34,8 @@ export async function notificarLeadAlta(params: {
   telefone: string;
   score: LeadScore;
   resumo: string;
+  observacao?: string | null;
+  origem?: string | null;
 }) {
   const to = process.env.NOTIFY_LEAD_A_EMAIL;
   if (!resend || !to) {
@@ -41,16 +43,30 @@ export async function notificarLeadAlta(params: {
     return { mocked: true };
   }
 
+  const telDigits = params.telefone.replace(/\D/g, "");
+  const waLink = telDigits.length >= 10
+    ? `https://wa.me/${telDigits.startsWith("55") ? telDigits : "55" + telDigits}?text=${encodeURIComponent(
+        `Olá ${params.nome.split(" ")[0]}, aqui é da R21 Empreendimentos. Recebi seu cadastro pelo nosso site — posso conversar com você sobre as opções de investimento que se encaixam no seu perfil?`
+      )}`
+    : null;
+
   return resend.emails.send({
     from,
     to,
-    subject: `[Lead ${params.score}] ${params.nome} — capital qualificado`,
+    subject: `[Lead ${params.score}] ${params.nome} — atender em 24h`,
     html: `
-      <h2>Novo lead qualificado (${params.score})</h2>
-      <p><strong>Nome:</strong> ${params.nome}</p>
-      <p><strong>E-mail:</strong> ${params.email}</p>
-      <p><strong>Telefone:</strong> ${params.telefone}</p>
-      <p><strong>Resumo:</strong> ${params.resumo}</p>
+      <div style="font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;max-width:560px;">
+        <p style="background:#E30613;color:#fff;display:inline-block;padding:4px 10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;">Lead ${params.score}</p>
+        <h2 style="margin:8px 0 4px;">${params.nome}</h2>
+        <p style="color:#3D3D3D;margin:0 0 16px;">${params.resumo}</p>
+        <table style="font-size:14px;border-collapse:collapse;">
+          <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">E-mail</td><td><a href="mailto:${params.email}">${params.email}</a></td></tr>
+          <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Telefone</td><td>${params.telefone}</td></tr>
+          ${params.origem ? `<tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Origem</td><td>${params.origem}</td></tr>` : ""}
+          ${params.observacao ? `<tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;vertical-align:top;">Observação</td><td>${params.observacao}</td></tr>` : ""}
+        </table>
+        ${waLink ? `<p style="margin:20px 0;"><a href="${waLink}" style="background:#0A0A0A;color:#fff;text-decoration:none;padding:12px 18px;font-weight:600;display:inline-block;">Abrir conversa no WhatsApp</a></p>` : ""}
+      </div>
     `,
   });
 }
