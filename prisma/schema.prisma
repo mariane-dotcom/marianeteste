@@ -32,6 +32,12 @@ enum Horizonte {
   acima_36m
 }
 
+enum StatusFinal {
+  em_andamento
+  fechou
+  perdeu
+}
+
 model Lead {
   id             String              @id @default(cuid())
   nome           String
@@ -51,11 +57,21 @@ model Lead {
   userAgent      String?
   crmProvider    String?
   crmContactId   String?
+  statusFinal    StatusFinal         @default(em_andamento)
+  closedAt       DateTime?
+  motivoPerda    String?
   createdAt      DateTime            @default(now())
   nurturingSteps NurturingDispatch[]
 
   @@index([email])
   @@index([classificacao, createdAt])
+  @@index([statusFinal, closedAt])
+}
+
+model AdminSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }
 
 model NurturingDispatch {
