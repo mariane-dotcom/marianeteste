@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { GuiaPdf } from "@/lib/guia/pdf";
+import { verifyLeadToken } from "@/lib/lead-token";
 
 export const runtime = "nodejs";
 
-// TODO Fase 2: substituir por validação real do token assinado emitido após o
-// submit do formulário qualificador.
 function isTokenValid(token: string | null): boolean {
   if (!token) return false;
-  return token === "preview";
+  if (token === "preview" && process.env.NODE_ENV !== "production") return true;
+  try {
+    return verifyLeadToken(token) !== null;
+  } catch {
+    return false;
+  }
 }
 
 export async function GET(req: NextRequest) {

@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Classificacao {
+  A
+  B
+  C
+}
+
+enum Objetivo {
+  morar
+  investir
+  ambos
+}
+
+enum FaixaCapital {
+  ate_300k
+  de_300k_700k
+  de_700k_1_5M
+  acima_1_5M
+}
+
+enum Horizonte {
+  ate_12m
+  de_12m_36m
+  acima_36m
+}
+
+model Lead {
+  id            String        @id @default(cuid())
+  nome          String
+  email         String
+  telefone      String
+  objetivo      Objetivo
+  faixaCapital  FaixaCapital
+  horizonte     Horizonte
+  score         Int
+  classificacao Classificacao
+  origem        String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmTerm       String?
+  utmContent    String?
+  userAgent     String?
+  createdAt     DateTime      @default(now())
+
+  @@index([email])
+  @@index([classificacao, createdAt])
+}
