@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { FormularioLead } from "./FormularioLead";
 
 export function SecaoCaptura() {
@@ -18,7 +19,9 @@ export function SecaoCaptura() {
           <li className="flex gap-3"><Check /> Se o modelo não couber pra você, dizemos isso na cara — e indicamos alternativas.</li>
         </ul>
       </div>
-      <FormularioLead />
+      <Suspense fallback={<div className="bg-r21-white border border-r21-fog p-10 h-[520px]" aria-hidden />}>
+        <FormularioLead />
+      </Suspense>
     </section>
   );
 }

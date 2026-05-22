@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const objetivos = [
   { value: "INVESTIR", label: "Para investir / valorização" },
@@ -25,8 +25,13 @@ const horizontes = [
 
 export function FormularioLead() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+
+  const capitalPre = searchParams.get("capital") ?? "";
+  const horizontePre = searchParams.get("horizonte") ?? "";
+  const origemPre = searchParams.get("origem") ?? "";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,7 +39,8 @@ export function FormularioLead() {
     setErro(null);
 
     const fd = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(fd.entries());
+    const payload: Record<string, unknown> = Object.fromEntries(fd.entries());
+    if (origemPre) payload.origem = origemPre;
 
     const usp = new URLSearchParams(window.location.search);
     const utm = {
@@ -67,8 +73,8 @@ export function FormularioLead() {
       <Campo label="WhatsApp / Telefone" name="telefone" required placeholder="(47) 9 9999-9999" />
 
       <Select label="Seu objetivo principal" name="objetivo" required opcoes={objetivos} />
-      <Select label="Faixa de investimento" name="capital" required opcoes={capitais} />
-      <Select label="Quando você pensa em entrar?" name="horizonte" required opcoes={horizontes} />
+      <Select label="Faixa de investimento" name="capital" required opcoes={capitais} defaultValue={capitalPre} />
+      <Select label="Quando você pensa em entrar?" name="horizonte" required opcoes={horizontes} defaultValue={horizontePre} />
 
       <label className="block text-sm">
         <span className="text-r21-graphite">Algo que você gostaria que soubéssemos? (opcional)</span>
@@ -110,16 +116,17 @@ function Campo({ label, name, required, type = "text", placeholder }: {
   );
 }
 
-function Select({ label, name, required, opcoes }: {
-  label: string; name: string; required?: boolean; opcoes: { value: string; label: string }[];
+function Select({ label, name, required, opcoes, defaultValue = "" }: {
+  label: string; name: string; required?: boolean; opcoes: { value: string; label: string }[]; defaultValue?: string;
 }) {
+  const valid = opcoes.some((o) => o.value === defaultValue) ? defaultValue : "";
   return (
     <label className="block text-sm">
       <span className="text-r21-graphite">{label}{required && <span className="text-r21-red"> *</span>}</span>
       <select
         name={name}
         required={required}
-        defaultValue=""
+        defaultValue={valid}
         className="mt-1 w-full border border-r21-fog px-3 py-2.5 bg-r21-white focus:outline-none focus:border-r21-red"
       >
         <option value="" disabled>Selecione…</option>

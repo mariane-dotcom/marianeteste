@@ -12,6 +12,7 @@ export function Header() {
           <a href="#valorizacao" className="hover:text-r21-black">Valorização</a>
           <a href="#modelo" className="hover:text-r21-black">Modelo</a>
           <a href="#portfolio" className="hover:text-r21-black">Portfólio</a>
+          <Link href="/calculadora" className="hover:text-r21-black">Calculadora</Link>
           <Link href="/guia" className="hover:text-r21-black">Guia</Link>
         </nav>
         <a href="#captura" className="btn-primary text-sm py-2.5 px-4 md:px-5">

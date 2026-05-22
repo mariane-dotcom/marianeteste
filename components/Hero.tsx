@@ -18,7 +18,7 @@ export function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#captura" className="btn-primary">Receber o guia completo</a>
-            <a href="#modelo" className="btn-outline">Entender o modelo</a>
+            <a href="/calculadora" className="btn-outline">Simular minha valorização</a>
           </div>
           <p className="mt-6 text-sm text-r21-stone">
             Sem spam. O guia é honesto sobre vantagens E desvantagens — leia antes de investir.
