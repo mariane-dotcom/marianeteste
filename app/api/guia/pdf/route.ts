@@ -20,7 +20,7 @@ function renderGuiaHtml() {
       if (b.tipo === "p") return `<p>${b.texto}</p>`;
       if (b.tipo === "lista") return `<ul>${b.itens.map((i) => `<li>${i}</li>`).join("")}</ul>`;
       if (b.tipo === "callout") return `<aside class="callout"><strong>${b.titulo}</strong><p>${b.texto}</p></aside>`;
-      if (b.tipo === "numero") return `<div class="numero"><span>${b.valor}</span><p>${b.texto}</p></div>`;
+      if (b.tipo === "numero") return `<div class="numero"><div class="num-valor">${b.valor}</div><div class="num-texto">${b.texto}</div></div>`;
       if (b.tipo === "comparativo") {
         return `<section class="comp">
           <h3>${b.titulo}</h3>
@@ -51,8 +51,11 @@ function renderGuiaHtml() {
   li { margin-bottom: 6px; }
   .callout { border-left: 4px solid #E30613; background:#F5F5F5; padding: 14px 18px; margin: 18px 0; }
   .callout strong { color:#E30613; font-size:11px; letter-spacing:.18em; text-transform:uppercase; }
-  .numero { display:flex; gap:18px; align-items:baseline; border-top:1px solid #D9D9D9; border-bottom:1px solid #D9D9D9; padding: 16px 0; }
-  .numero span { color:#E30613; font-size:48px; font-weight:800; letter-spacing:-.04em; }
+  .numero { border-top:1px solid #D9D9D9; border-bottom:1px solid #D9D9D9; margin: 18px 0; padding: 20px 0; page-break-inside: avoid; }
+  .numero .num-valor { color:#E30613; font-size:44px; font-weight:800; letter-spacing:-.04em; line-height:1; margin-bottom:10px; page-break-inside: avoid; page-break-after: avoid; }
+  .numero .num-texto { font-size:15px; color:#3D3D3D; line-height:1.55; page-break-inside: avoid; }
+  .callout, .comp { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
   .comp { background:#0A0A0A; color:#fff; padding: 24px; margin: 24px 0; }
   .comp h3 { margin-top: 0; }
   .comp h4 { color:#E30613; font-size:11px; letter-spacing:.18em; text-transform:uppercase; margin-bottom: 6px; }
